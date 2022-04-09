@@ -15,7 +15,7 @@ package mundo;
 /**
  * Clase que modela un token
  */
-//
+
 public class Token {
     // -----------------------------------------------------------------
     // Constantes
