@@ -36,7 +36,7 @@ public class Token {
     final public static String PALABRARESEVADADESICION = "Palabra reservada para una desicion";
     final public static String IDENTIFICADOR = "Identificador";
     final public static String NORECONOCIDO = "No reconocido";
- 
+ //
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
