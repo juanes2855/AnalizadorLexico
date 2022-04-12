@@ -34,6 +34,11 @@ public class Token {
     final public static String SEPARADORSENTENCIA = "Separador de sentencia";
     final public static String PALABRARESEVADACICLO = "Palabra reservada para un ciclo";
     final public static String PALABRARESEVADADESICION = "Palabra reservada para una desicion";
+    final public static String PALABRARESEVADACLASE = "Palabra reservada para una clase";
+    final public static String PALABRARESEVADAENTEROS = "Palabra reservada para tipo de datos enteros";
+    final public static String PALABRARESEVADAREALES = "Palabra reservada para tipo de datos reales";
+    final public static String PALABRARESEVADACADENAS = "Palabra reservada para una cadena";
+    final public static String PALABRARESEVADACARACTERES = "Palabra reservada para un caracter";
     final public static String IDENTIFICADOR = "Identificador";
     final public static String NORECONOCIDO = "No reconocido";
  //

@@ -64,10 +64,10 @@ public class AnalizadorLexico {
 		if ( token != null )
 			return token;
     	
-//		//Intenta extraer un real
-//		token = extraerReal(cod, i);
-//		if( token != null)
-//			return token;
+		//Intenta extraer un real
+		token = extraerReal(cod, i);
+		if( token != null)
+			return token;
 		
     	// Intenta extraer un operador aritmetico
 		token = extraerOperadorAritmetico(cod, i);
@@ -111,6 +111,16 @@ public class AnalizadorLexico {
 		
 		// Intenta extraer una palabra reservada desicion
 		token = extraerPalabraReservadaDesicion(cod, i);
+		if ( token != null )
+			return token;
+		
+		// Intenta extraer una palabra reservada clase
+		token = extraerPalabraReservadaClase(cod, i);
+		if ( token != null )
+			return token;
+		
+		// Intenta extraer una palabra reservada tipo de datos
+		token = extraerPalabraReservadaTipoDatos(cod, i);
 		if ( token != null )
 			return token;
 		
@@ -169,46 +179,38 @@ public class AnalizadorLexico {
      * el lexema, el tipo y la posición del siguiente lexema.
      */
 	
-    // Este método usa el método substring(), que se explica a continuación:
-    // x.substring( i, j ) retorna una nueva cadena que es una subcadena de la cadena x.
-    // La subcadena comienza en la posición i y
-    // se extiende hasta el carácter en la posición j-1.
-    // Ejemplo: "universidad".substring(3,6) retorna "ver",
-	
-	
-//	public Token extraerReal ( String cod, int i)
-//	{
-//		System.out.println("i del real : " + i);
-//		int j;
-//		String lex;
-//		if( cod.charAt(i)=='R' ){
-//			j=i+1;
-//			if( j<cod.length()){
-//				int aux = cod.indexOf('.');
-//				System.out.println("Aux de index . = " + aux);
-//				if((aux+1)< cod.length()){
-//					if(cod.contains(".") && esDigito(cod.charAt(j)) && esDigito(cod.charAt(aux+1)))
-//					{
-//					    do
-//					    	j++;
-//					    while (j<cod.length( ) && esDigito(cod.charAt(j)));
-//				        lex =  cod.substring( i, j+1);		
-//				        if(cod.charAt(j)=='.'){
-//				        	do{
-//				        		j++;
-//				        	}
-//				        	while ( j<cod.length( ) && esDigito(cod.charAt(j)));
-//				        	lex = cod.substring( i, j);		
-//				        	Token token = new Token( lex, Token.REAL, j);
-//							return token;
-//				        }	
-//					}		
-//				}
-//			}
-//		}
-//		
-//		return null;
-//	}
+	public Token extraerReal (String cod, int i)
+	{
+		String palabra= cod.substring(i);
+		int j, indice =0;
+		String lex;
+		if( palabra.charAt(indice)=='R' ){
+			j=i+1;
+			if( j<cod.length()){
+				int aux = palabra.indexOf('.');
+				if((aux+1)< palabra.length()){
+					if(palabra.contains(".") && esDigito(cod.charAt(j)) && esDigito(palabra.charAt(aux+1)))
+					{
+					    do
+					    	j++;
+					    while (j<cod.length( ) && esDigito(cod.charAt(j)));
+				        lex =  cod.substring( i, j+1);		
+				        if(palabra.charAt(aux)=='.'){
+				        	do{
+				        		j++;
+				        	}
+				        	while ( j<cod.length( ) && esDigito(cod.charAt(j)));
+				        	lex = cod.substring( i, j);		
+				        	Token token = new Token( lex, Token.REAL, j);
+							return token;
+				        }	
+					}		
+				}
+			}
+		}
+		
+		return null;
+	}
     /**
      * Intenta extraer un operador aditivo de la cadena cod a partir de la posición i,
      * basándose en el Autómata
@@ -503,18 +505,139 @@ public class AnalizadorLexico {
 	{
 		if( cod.charAt(i) =='S'){
 			int j=i+1;
-			if( j<cod.length() && cod.charAt(j) =='i'){		
-				j++;
-				String lex =  cod.substring( i, j);			    
-				Token token = new Token( lex, Token.PALABRARESEVADACICLO, j );
-				return token;	
-			}
-			if(j<cod.length() && cod.charAt(j) =='N'){
-				if( j<cod.length() && cod.charAt(j) =='o'){		
+			if((j<cod.length() && cod.charAt(j) =='i')){	
+				j++;		
+				if(j<cod.length() && cod.charAt(j) =='N'){
 					j++;
+					if( j<cod.length() && cod.charAt(j) =='o'){		
+						j++;
+						String lex =  cod.substring( i, j);			    
+						Token token = new Token( lex, Token.PALABRARESEVADADESICION, j );
+						return token;
+					}
+				}else {
 					String lex =  cod.substring( i, j);			    
-					Token token = new Token( lex, Token.PALABRARESEVADACICLO, j );
+					Token token = new Token( lex, Token.PALABRARESEVADADESICION, j );				
 					return token;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+     * Intenta extraer una palabra reservada para una clase a partir de la posición i,
+     * basándose en el Autómata
+     * @param cod - código al cual se le va a intentar extraer una palabra reservada para un  clase - codigo!=null
+     * @param i - posición a partir de la cual se va a intentar extraer una palabra reservada para un clase - 0<=i<codigo.length()
+     * @return el token una palabra reservada para un clase o NULL, si el token en la posición dada no es una palabra reservada para una clase. El Token se compone de 
+     * el lexema, el tipo y la posición del siguiente lexema.
+     */
+	public Token extraerPalabraReservadaClase( String cod, int i )
+	{
+		if( cod.charAt(i) =='s'){
+			int j=i+1;
+			if( j<cod.length() && cod.charAt(j) =='t'){		
+				j++;
+				if( j<cod.length() && cod.charAt(j) =='r'){		
+					j++;
+					if( j<cod.length() && cod.charAt(j) =='u'){		
+						j++;
+						if( j<cod.length() && cod.charAt(j) =='c'){		
+							j++;
+							if( j<cod.length() && cod.charAt(j) =='t'){		
+								j++;
+								String lex =  cod.substring( i, j);			    
+								Token token = new Token( lex, Token.PALABRARESEVADACLASE, j );
+								return token;
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+     * Intenta extraer una palabra reservada para una clase a partir de la posición i,
+     * basándose en el Autómata
+     * @param cod - código al cual se le va a intentar extraer una palabra reservada para un  clase - codigo!=null
+     * @param i - posición a partir de la cual se va a intentar extraer una palabra reservada para un clase - 0<=i<codigo.length()
+     * @return el token una palabra reservada para un clase o NULL, si el token en la posición dada no es una palabra reservada para una clase. El Token se compone de 
+     * el lexema, el tipo y la posición del siguiente lexema.
+     */
+	public Token extraerPalabraReservadaTipoDatos( String cod, int i )
+	{
+		if( cod.charAt(i) =='i' ){
+			int j=i+1;
+			if( j<cod.length() && cod.charAt(j) =='s'){		
+				j++;
+				if( j<cod.length() && cod.charAt(j) =='i'){		
+					j++;
+					if( j<cod.length() && cod.charAt(j) =='z'){		
+						j++;
+						if( j<cod.length() && cod.charAt(j) =='e'){		
+							j++;
+							String lex =  cod.substring( i, j);			    
+							Token token = new Token( lex, Token.PALABRARESEVADAENTEROS, j );
+							return token;
+						}
+					}
+				}
+			}
+		}
+		if( cod.charAt(i) =='r' ){
+			int j=i+1;
+			if( j<cod.length() && cod.charAt(j) =='s'){		
+				j++;
+				if( j<cod.length() && cod.charAt(j) =='i'){		
+					j++;
+					if( j<cod.length() && cod.charAt(j) =='z'){		
+						j++;
+						if( j<cod.length() && cod.charAt(j) =='e'){		
+							j++;
+							String lex =  cod.substring( i, j);			    
+							Token token = new Token( lex, Token.PALABRARESEVADAREALES, j );
+							return token;
+						}
+					}
+				}
+			}
+		}
+		if(cod.charAt(i) == '&') {
+			int j= i+1;
+			if(j<cod.length() && cod.charAt(j) =='(') {
+				j++;
+				if(j<cod.length() && cod.charAt(j) =='s') {
+					j++;
+					if(j<cod.length() && cod.charAt(j) =='t') {
+						j++;
+						if(j<cod.length() && cod.charAt(j) =='r') {
+							j++;
+							if(j<cod.length() && cod.charAt(j) ==')') {
+								j++;
+								String lex =  cod.substring( i, j);			    
+								Token token = new Token( lex, Token.PALABRARESEVADACADENAS, j );
+								return token;
+							}
+						}
+					}
+				}
+				if(j<cod.length() && cod.charAt(j) =='c') {
+					j++;
+					if(j<cod.length() && cod.charAt(j) =='a') {
+						j++;
+						if(j<cod.length() && cod.charAt(j) =='r') {
+							j++;
+							if(j<cod.length() && cod.charAt(j) ==')') {
+								j++;
+								String lex =  cod.substring( i, j);			    
+								Token token = new Token( lex, Token.PALABRARESEVADACARACTERES, j );
+								return token;
+							}
+						}	
+					}
 				}
 			}
 		}
