@@ -104,6 +104,11 @@ public class AnalizadorLexico {
 		if ( token != null )
 			return token;
 		
+		// Intenta extraer una palabra reservada sin categoria
+		token = extraerPalabraReservadaSinCategoria(cod, i);
+		if ( token != null )
+			return token;
+		
 		// Intenta extraer una palabra reservada ciclo
 		token = extraerPalabraReservadaCiclo(cod, i);
 		if ( token != null )
@@ -121,6 +126,21 @@ public class AnalizadorLexico {
 		
 		// Intenta extraer una palabra reservada tipo de datos
 		token = extraerPalabraReservadaTipoDatos(cod, i);
+		if ( token != null )
+			return token;
+		
+		// Intenta extraer una palabra reservada tipo de datos
+		token = extraerPalabraReservadaNombreVariable(cod, i);
+		if ( token != null )
+			return token;
+		
+		// Intenta extraer una palabra reservada tipo de datos
+		token = extraerPalabraReservadaNombreClase(cod, i);
+		if ( token != null )
+			return token;
+		
+		// Intenta extraer una palabra reservada tipo de datos
+		token = extraerPalabraReservadaNombreMetodo(cod, i);
 		if ( token != null )
 			return token;
 		
@@ -644,6 +664,159 @@ public class AnalizadorLexico {
 		return null;
 	}
 	
+	/**
+     * Intenta extraer una palabra reservada del nombre de una variable para una clase a partir de la posición i,
+     * basándose en el Autómata
+     * @param cod - código al cual se le va a intentar extraer una palabra reservada para un  clase - codigo!=null
+     * @param i - posición a partir de la cual se va a intentar extraer una palabra reservada para un clase - 0<=i<codigo.length()
+     * @return el token una palabra reservada para un clase o NULL, si el token en la posición dada no es una palabra reservada para una clase. El Token se compone de 
+     * el lexema, el tipo y la posición del siguiente lexema.
+     */
+	public Token extraerPalabraReservadaNombreVariable(String cod, int i) {
+		if(esLetraMinuscula(cod.charAt(i)) || cod.charAt(i)=='&' || cod.charAt(i)=='#'){
+			int j=i+1;
+			while( j<cod.length() && (esLetraMinuscula(cod.charAt(j)) || esDigito(cod.charAt(j))
+					|| cod.charAt(j)=='&' || cod.charAt(j)=='#'))		
+			    	j++;
+		    String lex =  cod.substring( i, j);			    
+		    Token token = new Token( lex, Token.PALABRARESEVADANOMBREVARIABLES, j );
+			return token;			
+		}
+
+		return null;
+	}	
+	/**
+     * Intenta extraer una palabra reservada del nombre de un metodo para una clase a partir de la posición i,
+     * basándose en el Autómata
+     * @param cod - código al cual se le va a intentar extraer una palabra reservada para un  clase - codigo!=null
+     * @param i - posición a partir de la cual se va a intentar extraer una palabra reservada para un clase - 0<=i<codigo.length()
+     * @return el token una palabra reservada para un clase o NULL, si el token en la posición dada no es una palabra reservada para una clase. El Token se compone de 
+     * el lexema, el tipo y la posición del siguiente lexema.
+     */
+	public Token extraerPalabraReservadaNombreMetodo(String cod, int i) {
+		if( esLetraMayuscula(cod.charAt(i)) || cod.charAt(i)=='%' || cod.charAt(i)=='!'){
+			int j=i+1;
+			while( j<cod.length() && (esLetraMayuscula(cod.charAt(j)) || esDigito(cod.charAt(j))
+					|| cod.charAt(j)=='%' || cod.charAt(j)=='!'))		
+			    	j++;
+		    String lex =  cod.substring( i, j);			    
+		    Token token = new Token( lex, Token.PALABRARESEVADANOMBREMETODO, j );
+			return token;			
+		}
+		return null;
+	}
+	/**
+     * Intenta extraer una palabra reservada del nombre de la clase a partir de la posición i,
+     * basándose en el Autómata
+     * @param cod - código al cual se le va a intentar extraer una palabra reservada para un  clase - codigo!=null
+     * @param i - posición a partir de la cual se va a intentar extraer una palabra reservada para un clase - 0<=i<codigo.length()
+     * @return el token una palabra reservada para un clase o NULL, si el token en la posición dada no es una palabra reservada para una clase. El Token se compone de 
+     * el lexema, el tipo y la posición del siguiente lexema.
+     */
+	
+	public Token extraerPalabraReservadaNombreClase(String cod, int i) {
+		if( cod.charAt(i)=='/' || cod.charAt(i)=='\\' ){
+			int j=i+1;
+			while( j<cod.length() && (esLetra(cod.charAt(j)) || esDigito(cod.charAt(j))
+					|| cod.charAt(i)=='/' || cod.charAt(i)=='\\')) 		
+			    	j++;
+		    String lex =  cod.substring( i, j);			    
+		    Token token = new Token( lex, Token.PALABRARESEVADANOMBRECLASE, j );
+			return token;			
+		}
+		return null;
+	}
+	
+	/**
+     * Intenta extraer una palabra reservada sin categoria a partir de la posición i,
+     * basándose en el Autómata
+     * @param cod - código al cual se le va a intentar extraer una palabra reservada para un  clase - codigo!=null
+     * @param i - posición a partir de la cual se va a intentar extraer una palabra reservada para un clase - 0<=i<codigo.length()
+     * @return el token una palabra reservada para un clase o NULL, si el token en la posición dada no es una palabra reservada para una clase. El Token se compone de 
+     * el lexema, el tipo y la posición del siguiente lexema.
+     */
+	public Token extraerPalabraReservadaSinCategoria(String cod, int i) {
+		if( cod.charAt(i) =='p' ){
+			int j=i+1;
+			if( j<cod.length() && cod.charAt(j) =='r'){		
+				j++;
+				if( j<cod.length() && cod.charAt(j) =='o'){		
+					j++;
+					if( j<cod.length() && cod.charAt(j) =='c'){		
+						j++;
+						if( j<cod.length() && cod.charAt(j) =='e'){		
+							j++;
+							if( j<cod.length() && cod.charAt(j) =='d'){		
+								j++;
+								if( j<cod.length() && cod.charAt(j) =='u'){		
+									j++;
+									if( j<cod.length() && cod.charAt(j) =='r'){		
+										j++;
+										if( j<cod.length() && cod.charAt(j) =='e'){		
+											j++;
+											String lex =  cod.substring( i, j);			    
+											Token token = new Token( lex, Token.PALABRARESEVADAPROCEDIMIENTO, j );
+											return token;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if( cod.charAt(i) =='m' ){
+			int j=i+1;
+			if( j<cod.length() && cod.charAt(j) =='e'){		
+				j++;
+				if( j<cod.length() && cod.charAt(j) =='t'){		
+					j++;
+					if( j<cod.length() && cod.charAt(j) =='h'){		
+						j++;
+						if( j<cod.length() && cod.charAt(j) =='o'){		
+							j++;
+							if( j<cod.length() && cod.charAt(j) =='d'){		
+								j++;
+								String lex =  cod.substring( i, j);			    
+								Token token = new Token( lex, Token.PALABRARESEVADAMETODO, j );
+								return token;
+							}
+						}
+					}
+				}
+			}
+		}
+		if( cod.charAt(i) =='c' ){
+			int j=i+1;
+			if( j<cod.length() && cod.charAt(j) =='v'){		
+				j++;
+				if( j<cod.length() && cod.charAt(j) =='a'){		
+					j++;
+					if( j<cod.length() && cod.charAt(j) =='r'){		
+						j++;
+						String lex =  cod.substring( i, j);			    
+						Token token = new Token( lex, Token.PALABRARESEVADACONSTANTES, j );
+						return token;
+					}
+				}
+			}
+		}
+		if( cod.charAt(i) =='v' ){
+			int j=i+1;
+			if( j<cod.length() && cod.charAt(j) =='a'){		
+				j++;
+				if( j<cod.length() && cod.charAt(j) =='r'){		
+					j++;
+					String lex =  cod.substring( i, j);			    
+					Token token = new Token( lex, Token.PALABRARESEVADAVARIABLES, j );
+					return token;
+				}
+			}
+		}
+		return null;
+	}
+	
     /**
      * Intenta extraer un identificador de la cadena cod a partir de la posición i,
      * basándose en el Autómata
@@ -700,6 +873,24 @@ public class AnalizadorLexico {
 	public boolean esLetra (char caracter )
 	{
 		return  (caracter >= 'A' && caracter <= 'Z') || (caracter >= 'a' && caracter <= 'z');
+	}
+	/**
+     * Determina si un carácter es una letra minuscula
+     * @param caracter - Carácter que se va a analizar - caracter!=null,
+     * @return true o false según el carácter sea una letra o no
+     */
+	public boolean esLetraMinuscula (char caracter )
+	{
+		return   (caracter >= 'a' && caracter <= 'z');
+	}
+	/**
+     * Determina si un carácter es una letra mayuscula
+     * @param caracter - Carácter que se va a analizar - caracter!=null,
+     * @return true o false según el carácter sea una letra o no
+     */
+	public boolean esLetraMayuscula (char caracter )
+	{
+		return  (caracter >= 'A' && caracter <= 'Z');
 	}
 
 }

@@ -39,6 +39,13 @@ public class Token {
     final public static String PALABRARESEVADAREALES = "Palabra reservada para tipo de datos reales";
     final public static String PALABRARESEVADACADENAS = "Palabra reservada para una cadena";
     final public static String PALABRARESEVADACARACTERES = "Palabra reservada para un caracter";
+    final public static String PALABRARESEVADANOMBREVARIABLES = "Palabra reservada para el nombre de una variable";
+    final public static String PALABRARESEVADANOMBREMETODO = "Palabra reservada para el nombre de un metodo";
+    final public static String PALABRARESEVADANOMBRECLASE = "Palabra reservada para el nombre de una clase";
+    final public static String PALABRARESEVADAPROCEDIMIENTO = "Palabra reservada sin categoria para un procedimiento";
+    final public static String PALABRARESEVADAMETODO = "Palabra reservada sin categoria para un metodo";
+    final public static String PALABRARESEVADACONSTANTES = "Palabra reservada sin categoria para una constante";
+    final public static String PALABRARESEVADAVARIABLES = "Palabra reservada sin categoria para una variable";
     final public static String IDENTIFICADOR = "Identificador";
     final public static String NORECONOCIDO = "No reconocido";
  //
